@@ -2,12 +2,13 @@
 
 ## Explain files:
 ### main.py
-Conduct: Talk to Chatbot, Solve Math Question and Talk to PDF File 
+Contain key operations: Talk to Chatbot, Solve Math Question and Talk to PDF File 
 
-### OCR_equation.py: 
+### OCR_equation.py
 Conduct OCR operation from input image
 
-visualize_equation.py: visualize equation input which entered from user
+### visualize_equation.py
+Visualize equation input which is entered from user
 
 ## Usage:
 ### Recommended environment:
