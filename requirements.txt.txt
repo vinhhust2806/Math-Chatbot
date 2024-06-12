@@ -1,0 +1,14 @@
+streamlit
+st_pages
+streamlit_cropper
+fitz
+streamlit_antd_components
+st_chat_message
+streamlit_login_auth_ui.widgets
+transformers
+rapid_latex_ocr
+matplotlib
+numpy
+sympy
+langchain
+torch
