@@ -1,9 +1,11 @@
 # Math-ChatBOT
 
 ## Explain files:
-main.py: contain three main operations: Talk to Chatbot, Solve Math Question and Talk to PDF File 
+### main.py
+Conduct: Talk to Chatbot, Solve Math Question and Talk to PDF File 
 
-OCR_equation.py: conduct OCR operation from input image
+### OCR_equation.py: 
+Conduct OCR operation from input image
 
 visualize_equation.py: visualize equation input which entered from user
 
