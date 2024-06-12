@@ -29,9 +29,9 @@ def main():
  add_page_title()
  show_pages(
         [
-            Page("C:\chabot/main.py", "Math Question", "🏠"),
-            Page("C:\chabot/visualize_equation.py", "Equation", ":bookmark_tabs:"),
-            Page("C:\chabot/OCR_equation.py", "Equation Image", ":books:"),
+            Page("main.py", "Math Question", "🏠"),
+            Page("visualize_equation.py", "Equation", ":bookmark_tabs:"),
+            Page("OCR_equation.py", "Equation Image", ":books:"),
         ]
     )
  
