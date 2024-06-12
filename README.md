@@ -21,7 +21,7 @@ Contain crop function and file processing function
 Please use ```pip install -r requirements.txt``` to install the libraries.
 
 ### Running ChatBOT:
-Run ```streamlit run main.py```
+Run ```streamlit run main.py --server.enableXsrfProtection false```
 
 ## User Interface
 
