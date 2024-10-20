@@ -1,4 +1,4 @@
-# Math-ChatBOT
+# Math Chatbot
 
 ## 🌱 Installation
 
