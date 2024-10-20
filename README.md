@@ -1,31 +1,37 @@
 # Math-ChatBOT
 
-## Explain files:
-### main.py
-Contain key operations: Talk to Chatbot, Solve Math Question and Talk to PDF File 
+## 🌱 Installation
 
-### OCR_equation.py
-Conduct OCR operation from input image
+```python
+pip install -r requirements.txt
+```
 
-### visualize_equation.py
-Visualize equation input which is entered from user
+## 🚀 Running ChatBOT:
+```python
+streamlit run work.py --server.enableXsrfProtection false
+```
 
-### utils.py
-Contain functions which create response from user queries
-
-### utils_template.py
-Contain crop function and file processing function
-
-## Usage:
-### Recommended environment:
-Please use ```pip install -r requirements.txt``` to install the libraries.
-
-### Running ChatBOT:
-Run ```streamlit run main.py --server.enableXsrfProtection false```
-
-## User Interface
-
+## 👀 User Interface
+- **Talk to Chatbot**
 <p align="center">
-<img src="UI.png" width=100% height=40% 
+<img src="image/talk_to_chatbot.png" width=80% height=40% 
+class="center">
+</p>
+
+- **Ask math question**
+<p align="center">
+<img src="image/math_question_answer.png" width=80% height=40% 
+class="center">
+</p>
+
+- **OCR equation**
+<p align="center">
+<img src="image/equation_ocr.png" width=80% height=40% 
+class="center">
+</p>
+
+- **Ask equation**
+<p align="center">
+<img src="image/equation_question.png" width=80% height=40% 
 class="center">
 </p>
