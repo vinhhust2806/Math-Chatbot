@@ -1,54 +1,65 @@
 
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-from langchain.document_loaders import UnstructuredFileLoader
 import os
+from langchain.document_loaders import UnstructuredFileLoader
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, pipeline
+
 device = "cuda:0"
 
-bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.bfloat16)
-
 model_id = "microsoft/Phi-3-mini-4k-instruct"  
-tokenizer = AutoTokenizer.from_pretrained('local_model')        # Load Tokenizer
 
-model = AutoModelForCausalLM.from_pretrained(              # Load Model
-    'local_model1', 
-    quantization_config=bnb_config,
+tokenizer = AutoTokenizer.from_pretrained('microsoft/Phi-3-mini-4k-instruct')        
+
+model = AutoModelForCausalLM.from_pretrained(           
+    'microsoft/Phi-3-mini-4k-instruct', 
     device_map="cuda", 
     torch_dtype="auto", 
     trust_remote_code=True, 
 )
 
-def generate_prompt(question):
-  return f"""<|user|>\n"Answer the question following this format: Step 1: Step 2: Step 3: The final:. The question is: "+{question} <|end|>\n<|assistant|>
-    """
-def generate_python(question):
-  return f"""<|user|>\n""Give the python code to solve this question:""+{question} <|end|>\n<|assistant|>
-    """
+pipe = pipeline( 
+    "text-generation", 
+    model=model, 
+    tokenizer=tokenizer, 
+) 
 
-def generate_pdf(question):
-  return f"""<|user|>\n{question}<|end|>\n<|assistant|>
-    """
+generation_args = { 
+    "max_new_tokens": 500, 
+    "return_full_text": False, 
+    "temperature": 0.0, 
+    "do_sample": False, 
+} 
 
-def response(question):
-    text = generate_prompt(question)
-    inputs = tokenizer(text, return_tensors="pt").to(device)
-    outputs = model.generate(**inputs, max_new_tokens=500)
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
-def response_python(question):
-    text = generate_python(question)
-    inputs = tokenizer(text, return_tensors="pt").to(device)
-    outputs = model.generate(**inputs, max_new_tokens=500)
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+def answer(text):
+   messages = [ 
+    {"role": "system", "content": "You are a helpful AI assistant."}, 
+    {"role": "user", "content": text}
+              ] 
+   output = pipe(messages, **generation_args) 
+   return output[0]['generated_text']
 
-def response_pdf(question):
-    text = generate_pdf(question)
-    inputs = tokenizer(text, return_tensors="pt").to(device)
-    outputs = model.generate(**inputs, max_new_tokens=500)
-    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+def answer_context(text, context):
+   messages = [ 
+    {"role": "system", "content": "You are a helpful AI assistant."}, 
+    {"role": "user", "content": f"The context is {context}. Give the answer relating to context if the following requirement relating to context, if not, give normal answer. The requirement is: " + text}
+              ] 
+   output = pipe(messages, **generation_args) 
+   return output[0]['generated_text']
+
+def answer_python(text):
+   messages = [ 
+    {"role": "system", "content": "You are a helpful AI assistant."}, 
+    {"role": "user", "content": "Give the python code to solve this question: " + text}
+              ] 
+   output = pipe(messages, **generation_args) 
+   return output[0]['generated_text']
+
+def answer_step(text):
+   messages = [ 
+    {"role": "system", "content": "You are a helpful AI assistant."}, 
+    {"role": "user", "content": "Answer the question following this format: Step 1: Step 2: Step 3: The final:. The question is: " + text}
+              ] 
+   output = pipe(messages, **generation_args) 
+   return output[0]['generated_text']
 
 def process_uploaded_files(uploaded_files):
     documents = []
